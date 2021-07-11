@@ -1,4 +1,8 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
+
+UserModel = get_user_model()
 
 
 class ProductLot(models.Model):
@@ -28,3 +32,28 @@ class Client(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Order(models.Model):
+    client = models.ForeignKey('Client', related_name='clients', on_delete=models.PROTECT)
+    seller = models.ForeignKey(UserModel, related_name='sellers', on_delete=models.PROTECT)
+    order_date = models.DateField(auto_now=True)
+
+    @property
+    def total(self):
+        sum_ = 0
+        lines = self.orderlines.all()
+        for line in lines:
+            sum_ += line.total
+        return sum_
+
+
+class OrderLine(models.Model):
+    product = models.ForeignKey('Product', related_name='products', on_delete=models.CASCADE)
+    order = models.ForeignKey('Order', related_name='orderlines', on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    quantity = models.IntegerField()
+
+    @property
+    def total(self):
+        return self.price * self.quantity

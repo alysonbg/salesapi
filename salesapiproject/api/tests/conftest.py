@@ -1,9 +1,13 @@
+from decimal import Decimal
+
 import pytest
 
-from salesapiproject.api.models import ProductLot, Product, Client
+from salesapiproject.api.models import ProductLot, Product, Client, Order, OrderLine
 from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
+
+UserModel = get_user_model()
 
 
 @pytest.fixture
@@ -42,11 +46,35 @@ def new_client(db):
 
 
 @pytest.fixture
-def auth_client(db):
-    UserModel = get_user_model()
-    user = UserModel.objects.create_superuser('admin', 'admin@admin.com', 'admin123')
-    token = Token.objects.create(user=user)
+def new_user(db):
+    return UserModel.objects.create_superuser('admin', 'admin@admin.com', 'admin123')
+
+
+@pytest.fixture
+def order(db, products_with_lot, new_user, new_client):
+    return Order.objects.create(client=new_client,
+                                seller=new_user,)
+
+
+@pytest.fixture
+def orderlines(db, order, products_with_lot):
+    return [
+        OrderLine.objects.create(product=products_with_lot[0],
+                                 order=order,
+                                 price=Decimal(1200),
+                                 quantity=2),
+        OrderLine.objects.create(product=products_with_lot[1],
+                                 order=order,
+                                 price=Decimal(300),
+                                 quantity=2)
+    ]
+
+
+@pytest.fixture
+def auth_client(db, new_user):
+    token = Token.objects.create(user=new_user)
     client = APIClient()
     client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
 
     return client
+
