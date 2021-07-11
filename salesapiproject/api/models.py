@@ -19,3 +19,12 @@ class Product(models.Model):
     color = models.CharField(max_length=100)
     description = models.TextField()
     cost = models.DecimalField(max_digits=6, decimal_places=2)
+
+
+class Client(models.Model):
+    name = models.CharField(max_length=100)
+    cpf = models.CharField(max_length=11)
+    birth_date = models.DateField()
+
+    def __str__(self):
+        return self.name
