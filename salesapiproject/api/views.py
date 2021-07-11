@@ -1,5 +1,6 @@
-from salesapiproject.api.models import Product, ProductLot
-from salesapiproject.api.serializers import ProductSerializer, ProductCreateSerializer, ProductLotSerializer
+from salesapiproject.api.models import Product, ProductLot, Client
+from salesapiproject.api.serializers import ProductSerializer, ProductCreateSerializer, ProductLotSerializer, \
+    ClientSerializer
 from rest_framework import viewsets
 
 
@@ -23,4 +24,10 @@ class ProductViewSet(viewsets.ModelViewSet):
 class ProductLotViewSet(viewsets.ModelViewSet):
     queryset = ProductLot.objects.all()
     serializer_class = ProductLotSerializer
+    http_method_names = ['get', 'post', 'patch', 'delete']
+
+
+class ClientViewSet(viewsets.ModelViewSet):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']

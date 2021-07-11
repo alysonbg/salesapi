@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from salesapiproject.api.models import Product, ProductLot
+from salesapiproject.api.models import Product, ProductLot, Client
 
 
 class ProductLotSerializer(serializers.ModelSerializer):
@@ -24,3 +24,10 @@ class ProductCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['name', 'lot', 'color', 'description', 'cost']
+
+
+class ClientSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Client
+        fields = ['name', 'cpf', 'birth_date']

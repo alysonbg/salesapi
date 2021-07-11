@@ -1,6 +1,6 @@
 import pytest
 
-from salesapiproject.api.models import ProductLot, Product
+from salesapiproject.api.models import ProductLot, Product, Client
 from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
@@ -32,6 +32,13 @@ def products_with_lot(db, product_lot):
             cost='200'
         ),
     ]
+
+
+@pytest.fixture
+def new_client(db):
+    return Client.objects.create(name='Ned Stark',
+                                 cpf='12345678901',
+                                 birth_date='1994-07-11')
 
 
 @pytest.fixture
