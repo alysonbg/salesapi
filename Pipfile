@@ -10,6 +10,7 @@ python-decouple = "*"
 django-extensions = "*"
 psycopg2-binary = "*"
 dj-database-url = "*"
+pytest = "*"
 
 [dev-packages]
 pytest = "*"
