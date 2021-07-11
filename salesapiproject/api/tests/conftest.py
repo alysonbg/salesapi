@@ -1,6 +1,9 @@
 import pytest
 
 from salesapiproject.api.models import ProductLot, Product
+from rest_framework.test import APIClient
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import get_user_model
 
 
 @pytest.fixture
@@ -29,3 +32,14 @@ def products_with_lot(db, product_lot):
             cost='200'
         ),
     ]
+
+
+@pytest.fixture
+def auth_client(db):
+    UserModel = get_user_model()
+    user = UserModel.objects.create_superuser('admin', 'admin@admin.com', 'admin123')
+    token = Token.objects.create(user=user)
+    client = APIClient()
+    client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+
+    return client
