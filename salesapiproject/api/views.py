@@ -1,6 +1,6 @@
-from salesapiproject.api.models import Product, ProductLot, Client, Order
+from salesapiproject.api.models import Product, ProductLot, Client, Order, OrderLine
 from salesapiproject.api.serializers import ProductSerializer, ProductCreateSerializer, ProductLotSerializer, \
-    ClientSerializer, OrderSerializer, OrderCreateSerializer
+    ClientSerializer, OrderSerializer, OrderCreateSerializer, OrderLineSerializer, OrderLineCreateSerializer
 
 from rest_framework import viewsets
 
@@ -37,6 +37,7 @@ class ClientViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    http_method_names = ['get', 'post', 'patch', 'delete']
 
     def get_serializer_class(self):
         actions = [
@@ -51,3 +52,20 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(seller=self.request.user)
+
+
+class OrderLineViewSet(viewsets.ModelViewSet):
+    queryset = OrderLine.objects.all()
+    serializer_class = OrderLineSerializer
+    http_method_names = ['get', 'post', 'patch', 'delete']
+
+    def get_serializer_class(self):
+        actions = [
+            'create',
+            'update',
+            'partial_update',
+            'delete'
+        ]
+        if self.action in actions:
+            return OrderLineCreateSerializer
+        return self.serializer_class
