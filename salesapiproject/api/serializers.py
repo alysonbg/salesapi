@@ -41,6 +41,13 @@ class OrderLineSerializer(serializers.ModelSerializer):
         fields = ['product', 'price', 'quantity']
 
 
+class OrderLineCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OrderLine
+        fields = ['product', 'order', 'price', 'quantity']
+
+
 class OrderCreateSerializer(serializers.ModelSerializer):
     total = serializers.ReadOnlyField()
 
