@@ -59,8 +59,8 @@ class OrderCreateSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     client = ClientSerializer()
-    # orderlines = OrderLineSerializer(source='orderlines')
+    orderlines = OrderLineSerializer(many=True)
 
     class Meta:
         model = Order
-        fields = ['client', 'seller', 'total']
+        fields = ['client', 'seller', 'total', 'orderlines']
