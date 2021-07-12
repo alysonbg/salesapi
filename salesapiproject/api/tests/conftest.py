@@ -74,8 +74,6 @@ def orderlines(db, order, products_with_lot):
 @pytest.fixture
 def auth_client(db, new_user):
     token = Token.objects.create(user=new_user)
-    user = UserModel.objects.create_superuser('admin', 'admin@admin.com', 'admin123')
-    token = Token.objects.create(user=user)
     client = APIClient()
     client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
 
