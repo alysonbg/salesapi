@@ -1,6 +1,15 @@
 # salesapi
 [![Python application](https://github.com/alysonbg/salesapi/actions/workflows/django_project.yml/badge.svg)](https://github.com/alysonbg/salesapi/actions/workflows/django_project.yml)
 
+## Como rodar o projeto
+```console
+git clone git@github.com:alysonbg/salesapi.git
+cd salesapi
+cp contrib/env-sample .env
+python manage.py migrate
+pytest
+python manage.py runserver
+```
 ## Como acessar os endpoints:
 1. Crie um usuário novo.
 2. Executar a aplicação   
