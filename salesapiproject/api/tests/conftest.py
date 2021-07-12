@@ -3,6 +3,7 @@ from decimal import Decimal
 import pytest
 
 from salesapiproject.api.models import ProductLot, Product, Client, Order, OrderLine
+
 from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
@@ -73,8 +74,9 @@ def orderlines(db, order, products_with_lot):
 @pytest.fixture
 def auth_client(db, new_user):
     token = Token.objects.create(user=new_user)
+    user = UserModel.objects.create_superuser('admin', 'admin@admin.com', 'admin123')
+    token = Token.objects.create(user=user)
     client = APIClient()
     client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
 
     return client
-

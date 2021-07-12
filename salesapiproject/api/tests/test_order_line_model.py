@@ -24,4 +24,3 @@ def test_total(products_with_lot, order):
                                           price=1200.00,
                                           quantity=2)
     assert 2400.00 == order_line.total
-

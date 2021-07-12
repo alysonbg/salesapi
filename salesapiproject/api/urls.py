@@ -1,4 +1,5 @@
 from salesapiproject.api.views import ProductViewSet, ProductLotViewSet, ClientViewSet, OrderViewSet
+
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
